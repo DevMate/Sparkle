@@ -230,7 +230,7 @@ static NSString *const SUUpdaterDefaultsObservationContext = @"SUUpdaterDefaults
 {
 	if ([note object] == self.driver && (nil == self.driver || [self.driver finished]))
 	{
-        if ([self.delegate conformsToProtocol:@protocol(SUUpdaterDelegatePrivate)]) {
+        if ([self.delegate respondsToSelector:@selector(updaterDidEndUpdateProcess:)]) {
             [(id<SUUpdaterDelegatePrivate>)self.delegate updaterDidEndUpdateProcess:self];
         }
 
@@ -321,7 +321,7 @@ static NSString *const SUUpdaterDefaultsObservationContext = @"SUUpdaterDefaults
 	if ([self updateInProgress]) { return; }
 	if (self.checkTimer) { [self.checkTimer invalidate]; self.checkTimer = nil; }		// Timer is non-repeating, may have invalidated itself, so we had to retain it.
 
-    if ([self.delegate conformsToProtocol:@protocol(SUUpdaterDelegatePrivate)]) {
+    if ([self.delegate respondsToSelector:@selector(updaterWillStartUpdateProcess:)]) {
         [(id<SUUpdaterDelegatePrivate>)self.delegate updaterWillStartUpdateProcess:self];
     }
     
